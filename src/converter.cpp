@@ -1,4 +1,6 @@
 #include "converter.h"
+#include <algorithm>
+#include <stdexcept>
 #include <vector>
 
 std::vector<std::string> Converter::split(const std::string &word_sequence) {
