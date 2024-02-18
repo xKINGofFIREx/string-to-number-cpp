@@ -62,12 +62,12 @@ bool Converter::is_in(std::string array[], const std::string &word) {
 
 std::string Converter::get_format_type(const std::string &word) {
     if (is_in(ones, word) || word == "zero")
-        return "единичного";
+        return "единичного формата";
     if (is_in(tens, word))
-        return "десятичного";
+        return "десятичного формата";
     if (is_in(from11to19, word))
-        return "11-19";
-    return "сотен";
+        return "формата 11-19";
+    return "формата сотен";
 }
 
 std::string Converter::convert_string(const std::string &word_sequence) {
@@ -90,6 +90,9 @@ std::string Converter::convert_string(const std::string &word_sequence) {
         return "Перед словом hundred должно стоять число единичного "
                "формата";
 
+    if (words[0] == "zero")
+        return "Число не может начинаться с нуля";
+
     unsigned int result_number = word_to_number.at(words[0]);
 
     for (int i = 1; i < words.size(); ++i) {
@@ -97,11 +100,13 @@ std::string Converter::convert_string(const std::string &word_sequence) {
             return "Слово - " + words[i] + " содержит ошибку";
         }
 
+        if (words[i] == "zero")
+            return "Ноль может быть только отдельной цифрой";
+
         if (!is_sequence_correct(words[i - 1], words[i])) {
-            return "Число " + words[i - 1] + " формата " +
-                   get_format_type(words[i - 1]) +
-                   " не может стоять перед числом " + words[i] + " формата " +
-                   get_format_type(words[i]);
+            return "Число " + get_format_type(words[i - 1]) + " - " +
+                   words[i - 1] + " не может идти перед числом " +
+                   get_format_type(words[i]) + " - " + words[i];
         }
         if (words[i] == "hundred") {
             result_number *= 100;
@@ -111,7 +116,7 @@ std::string Converter::convert_string(const std::string &word_sequence) {
     }
 
     if (result_number > 999)
-        return "Число не может быть больше 999";
+        return "Число задается в диапазоне 0-999";
 
     return std::to_string(result_number);
 }
