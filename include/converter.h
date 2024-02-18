@@ -18,6 +18,8 @@ class Converter {
                                     const std::string &right);
     static bool is_in(std::string array[], const std::string &word);
 
+    static std::string get_format_type(const std::string &word);
+
   public:
     static std::string convert_string(const std::string &word_sequence);
 };

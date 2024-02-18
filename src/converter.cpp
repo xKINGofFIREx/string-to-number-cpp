@@ -1,6 +1,7 @@
 #include "converter.h"
 #include <algorithm>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 std::vector<std::string> Converter::split(const std::string &word_sequence) {
@@ -8,7 +9,7 @@ std::vector<std::string> Converter::split(const std::string &word_sequence) {
     std::string word = "";
 
     for (auto it = word_sequence.begin(); it < word_sequence.end(); ++it) {
-        if (*it != ' ') {
+        if (*it != ' ' && *it != '\n') {
             word += *it;
         } else if (word.size() != 0 && *it == ' ') {
             words.push_back(word);
@@ -59,6 +60,16 @@ bool Converter::is_in(std::string array[], const std::string &word) {
     return false;
 }
 
+std::string Converter::get_format_type(const std::string &word) {
+    if (is_in(ones, word) || word == "zero")
+        return "единичного";
+    if (is_in(tens, word))
+        return "десятичного";
+    if (is_in(from11to19, word))
+        return "11-19";
+    return "сотен";
+}
+
 std::string Converter::convert_string(const std::string &word_sequence) {
     std::string lowercase_string = "";
     std::for_each(word_sequence.begin(), word_sequence.end(),
@@ -87,8 +98,10 @@ std::string Converter::convert_string(const std::string &word_sequence) {
         }
 
         if (!is_sequence_correct(words[i - 1], words[i])) {
-            return "Oшибка последовательности - " + words[i - 1] + " " +
-                   words[i];
+            return "Число " + words[i - 1] + " формата " +
+                   get_format_type(words[i - 1]) +
+                   " не может стоять перед числом " + words[i] + " формата " +
+                   get_format_type(words[i]);
         }
         if (words[i] == "hundred") {
             result_number *= 100;
@@ -96,6 +109,9 @@ std::string Converter::convert_string(const std::string &word_sequence) {
             result_number += word_to_number.at(words[i]);
         }
     }
+
+    if (result_number > 999)
+        return "Число не может быть больше 999";
 
     return std::to_string(result_number);
 }
