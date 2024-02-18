@@ -1,20 +1,32 @@
 #include "mainwidget.h"
+#include "converter.h"
 #include <QtWidgets>
 
-// Constructor for main widget
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
-    button_ = new QPushButton(tr("Push Me!"));
-    textBrowser_ = new QTextBrowser();
+    button_ = new QPushButton(tr("Result"));
+    text_browser_out_ = new QTextBrowser();
+    text_edit_ = new QTextEdit();
+    auto bc = [&]() { text_browser_out_->append("text"); };
 
+    connect(button_, &QPushButton::clicked, this, &MainWidget::handleButton);
     QGridLayout *mainLayout = new QGridLayout;
-    mainLayout->addWidget(button_, 0, 0);
-    mainLayout->addWidget(textBrowser_, 1, 0);
+    mainLayout->addWidget(text_edit_, 0, 0);
+    mainLayout->addWidget(button_, 1, 0);
+    mainLayout->addWidget(text_browser_out_, 2, 0);
+    setFixedSize(800, 600);
     setLayout(mainLayout);
-    setWindowTitle(tr("Connecting buttons to processes.."));
+    setWindowTitle(tr("Ильин А.В. транслятор с Английского языка."));
 }
 
-// Destructor
 MainWidget::~MainWidget() {
     delete button_;
-    delete textBrowser_;
+    delete text_browser_out_;
+    delete text_edit_;
+}
+
+void MainWidget::handleButton() {
+    QString text = text_edit_->toPlainText();
+    text =
+        QString::fromStdString(Converter::convert_string(text.toStdString()));
+    text_browser_out_->setText(text);
 }

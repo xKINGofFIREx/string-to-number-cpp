@@ -5,19 +5,22 @@
 
 class QPushButton;
 class QTextBrowser;
+class QTextEdit;
 
-// This is the declaration of our MainWidget class
-// The definition/implementation is in mainwidget.cpp
 class MainWidget : public QWidget {
     Q_OBJECT
 
   public:
-    explicit MainWidget(QWidget *parent = 0); // Constructor
-    ~MainWidget();                            // Destructor
+    explicit MainWidget(QWidget *parent = 0);
+    ~MainWidget();
+
+  private slots:
+    void handleButton();
 
   private:
     QPushButton *button_;
-    QTextBrowser *textBrowser_;
+    QTextBrowser *text_browser_out_;
+    QTextEdit *text_edit_;
 };
 
 #endif // MAINWIDGET_H
