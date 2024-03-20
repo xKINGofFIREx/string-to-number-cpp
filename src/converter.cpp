@@ -1,8 +1,11 @@
-#include "converter.h"
+#include "converter.hpp"
 #include <algorithm>
+#include <numbers.hpp>
 #include <stdexcept>
 #include <string>
 #include <vector>
+
+using namespace numbers;
 
 std::vector<std::string> Converter::split(const std::string &word_sequence) {
     std::vector<std::string> words;
@@ -26,7 +29,7 @@ std::vector<std::string> Converter::split(const std::string &word_sequence) {
 bool Converter::is_word_correct(const std::string &word) {
 
     try {
-        int word_num = word_to_number.at(word);
+        int word_num = Numbers::word_to_number.at(word);
     } catch (const std::out_of_range &e) {
         return false;
     }
@@ -36,16 +39,17 @@ bool Converter::is_word_correct(const std::string &word) {
 
 bool Converter::is_sequence_correct(const std::string &left,
                                     const std::string &right) {
-    if (is_in(ones, right) && (is_in(tens, left) || left == "hundred"))
+    if (is_in(Numbers::ones, right) &&
+        (is_in(Numbers::tens, left) || left == "hundred"))
         return true;
 
-    if (is_in(tens, right) && left == "hundred")
+    if (is_in(Numbers::tens, right) && left == "hundred")
         return true;
 
-    if (is_in(from11to19, right) && left == "hundred")
+    if (is_in(Numbers::from11to19, right) && left == "hundred")
         return true;
 
-    if (right == "hundred" && is_in(ones, left))
+    if (right == "hundred" && is_in(Numbers::ones, left))
         return true;
 
     return false;
@@ -61,11 +65,11 @@ bool Converter::is_in(std::string array[], const std::string &word) {
 }
 
 std::string Converter::get_format_type(const std::string &word) {
-    if (is_in(ones, word) || word == "zero")
+    if (is_in(Numbers::ones, word) || word == "zero")
         return "единичного формата";
-    if (is_in(tens, word))
+    if (is_in(Numbers::tens, word))
         return "десятичного формата";
-    if (is_in(from11to19, word))
+    if (is_in(Numbers::from11to19, word))
         return "формата 11-19";
     return "формата сотен";
 }
@@ -93,7 +97,7 @@ std::string Converter::convert_string(const std::string &word_sequence) {
     if (words[0] == "zero")
         return "Число не может начинаться с нуля";
 
-    unsigned int result_number = word_to_number.at(words[0]);
+    unsigned int result_number = Numbers::word_to_number.at(words[0]);
 
     for (int i = 1; i < words.size(); ++i) {
         if (!is_word_correct(words[i])) {
@@ -111,7 +115,7 @@ std::string Converter::convert_string(const std::string &word_sequence) {
         if (words[i] == "hundred") {
             result_number *= 100;
         } else {
-            result_number += word_to_number.at(words[i]);
+            result_number += Numbers::word_to_number.at(words[i]);
         }
     }
 

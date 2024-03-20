@@ -17,7 +17,7 @@ find_package(
   COMPONENTS Widgets
   REQUIRED)
 
-qt5_wrap_cpp(MOC_SOURCES include/mainwidget.h)
+qt5_wrap_cpp(MOC_SOURCES include/mainwidget.hpp)
 
 file(GLOB SOURCES "src/*.cpp")
 

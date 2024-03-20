@@ -1,12 +1,8 @@
 #include <string>
 #include <vector>
 
-#include "numbers.h"
-
-#ifndef CONVERTER_H_
-#define CONVERTER_H_
-
-using namespace numbers;
+#ifndef CONVERTER_HPP
+#define CONVERTER_HPP
 
 class Converter {
   private:
@@ -24,4 +20,4 @@ class Converter {
     static std::string convert_string(const std::string &word_sequence);
 };
 
-#endif // converter.h
+#endif

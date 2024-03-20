@@ -1,12 +1,11 @@
-#include "mainwidget.h"
-#include "converter.h"
+#include "mainwidget.hpp"
+#include "converter.hpp"
 #include <QtWidgets>
 
 MainWidget::MainWidget(QWidget *parent) : QWidget(parent) {
     button_ = new QPushButton(tr("Result"));
     text_browser_out_ = new QTextBrowser();
     text_edit_ = new QTextEdit();
-    auto bc = [&]() { text_browser_out_->append("text"); };
 
     connect(button_, &QPushButton::clicked, this, &MainWidget::handleButton);
     QGridLayout *mainLayout = new QGridLayout;

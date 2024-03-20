@@ -1,5 +1,5 @@
-#ifndef MAINWIDGET_H
-#define MAINWIDGET_H
+#ifndef MAINWIDGET_HPP
+#define MAINWIDGET_HPP
 
 #include <QWidget>
 
@@ -23,4 +23,4 @@ class MainWidget : public QWidget {
     QTextEdit *text_edit_;
 };
 
-#endif // MAINWIDGET_H
+#endif // MAINWIDGET_HPP

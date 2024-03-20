@@ -1,4 +1,4 @@
-#include "mainwidget.h"
+#include "mainwidget.hpp"
 #include <QtWidgets>
 
 int main(int argc, char *argv[]) {
